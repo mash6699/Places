@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Places</string>
+
+
+    <string name="lbl_tipo">Tipo</string>
+    <string name="cat_cinema">Cine</string>
+    <string name="cat_theater">Teatro</string>
+    <string name="cat_restaurant">Restaurante</string>
+
+    <string name="lbl_location">Que quieres ubicar?</string>
+
+
+    <string name="google_maps_key"></string>
+    <string name="title_activity_place_location">Map</string>
 </resources>
