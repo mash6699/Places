@@ -22,9 +22,11 @@
 
 
         <LinearLayout
+            android:id="@+id/linerCinema"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="searchCinema">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -40,13 +42,16 @@
                 android:text="@string/cat_cinema"
                 android:id="@+id/tv_cinema"
                 android:layout_gravity="center_vertical" />
+
         </LinearLayout>
 
 
         <LinearLayout
+            android:id="@+id/linerTheater"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="searchTheater" >
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -62,13 +67,16 @@
                 android:text="@string/cat_theater"
                 android:id="@+id/tv_theater"
                 android:layout_gravity="center_vertical" />
+
         </LinearLayout>
 
 
         <LinearLayout
+            android:id="@+id/linerRestaurant"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="searchRestaurant">
 
             <ImageView
                 android:layout_width="wrap_content"

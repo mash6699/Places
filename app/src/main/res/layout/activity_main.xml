@@ -9,13 +9,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="mx.places.MainActivity">
 
-
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/main_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>
