@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.BundleCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import mx.places.PlacesActivity;
@@ -48,8 +51,25 @@ public class Utils {
                 imageId = context.getResources().getDrawable(R.drawable.img_restaurant);
                 break;
         }
-        Log.d(TAG, "");
         return imageId;
     }
+
+    public static boolean isOnline(Activity a) {
+        ConnectivityManager cm = (ConnectivityManager) a.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+
+    /*
+      AlertDialog.Builder builder = new AlertDialog.Builder(a);
+            builder.setMessage("No tienes conexion a la red")
+                    .setCancelable(true)
+                    .setPositiveButton("OK", null);
+            AlertDialog alert = builder.create();
+            alert.show();
+     */
 
 }
