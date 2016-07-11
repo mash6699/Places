@@ -1,22 +1,40 @@
 package mx.places.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 /**
  * Created by miguel_angel on 8/07/16.
  */
-public class Place {
+public class Place implements Serializable{
 
-    private String icon;
+    @SerializedName("fnId")
+    private int id;
+    @SerializedName("fcNombre")
     private String name;
+    @SerializedName("fcHorario")
     private String schedule;
+    @SerializedName("fcDireccion")
+    private String address;
+    @SerializedName("fcCoordenadas")
+    private String coordinates;
+
+    @SerializedName("")
     private String distance;
+    @SerializedName("")
     private String ranking;
 
-    public String getIcon() {
-        return icon;
-    }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+
+
+    public Place () {}
+
+    public Place(String name, String schedule, String distance, String ranking) {
+        this.name = name;
+        this.schedule = schedule;
+        this.distance = distance;
+        this.ranking = ranking;
     }
 
     public String getName() {
@@ -49,5 +67,29 @@ public class Place {
 
     public void setRanking(String ranking) {
         this.ranking = ranking;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
     }
 }

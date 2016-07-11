@@ -10,6 +10,7 @@
     <string name="lbl_location">Que quieres ubicar?</string>
 
 
-    <string name="google_maps_key"></string>
+    <!--<string name="google_maps_key"></string>-->
     <string name="title_activity_place_location">Map</string>
+    <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
 </resources>

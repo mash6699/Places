@@ -3,11 +3,12 @@ package mx.places;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
 import static mx.places.utils.Const.ID_CAT;
-import static mx.places.utils.Const.CAT_CINAMA;
+import static mx.places.utils.Const.CAT_CINEMA;
 import static mx.places.utils.Const.CAT_THEATER;
 import static mx.places.utils.Const.CAT_RESTAURNANT;
 
@@ -15,18 +16,22 @@ import static mx.places.utils.Const.CAT_RESTAURNANT;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    Bundle bundle;
+    Bundle bundle = new Bundle();
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bundle = new Bundle();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.app_name));
+
+        setSupportActionBar(toolbar);
     }
 
     public void searchCinema (View view) {
-        bundle.putInt(ID_CAT, CAT_CINAMA);
-       sendIntentPlace(bundle);
+        bundle.putInt(ID_CAT, CAT_CINEMA);
+        sendIntentPlace(bundle);
     }
 
     public void searchTheater (View view) {
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendIntentPlace (Bundle bundle) {
         try {
+            Log.d(TAG, "sendIntentPlace: " + bundle.get(ID_CAT));
             Intent intent = new Intent(MainActivity.this, PlacesActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
