@@ -14,4 +14,5 @@ public class Const {
     public static final String THEATER = "Theater";
     public static final String RESTAURANT = "Restaurant";
 
+    public static final String PLACE = "PLACE";
 }

@@ -9,7 +9,7 @@ public class RequestPlaces {
     private static String API_PATH = "ServiceApp/services/rest/" ;
     private static String API_GET_COMMENTS = "getComentarios" ;
     private static String API_SEND_COMMENT = "setComentario" ;
-    private static String API_GET_LOCATION = "getUbicaciones" ;
+    private static String API_GET_LOCATION = "getUbicaciones2" ;
 
 
     public static String getAPI_GET_COMMENTS() {

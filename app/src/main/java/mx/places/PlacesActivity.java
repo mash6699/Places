@@ -2,6 +2,7 @@ package mx.places;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -40,9 +41,11 @@ import java.util.List;
 import java.util.Map;
 
 import mx.places.adapter.PlaceAdapter;
+import mx.places.iface.PlaceSelector;
 import mx.places.model.Place;
 import mx.places.model.PlaceList;
 import mx.places.service.VolleyService;
+import mx.places.utils.Const;
 import mx.places.utils.RequestPlaces;
 import mx.places.utils.Utils;
 
@@ -51,7 +54,7 @@ import static mx.places.utils.Const.ID_CAT;
 /**
  * Created by miguel_angel on 8/07/16.
  */
-public class PlacesActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class PlacesActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, PlaceSelector {
 
     private final static String TAG = PlacesActivity.class.getName();
     private int CAT = 0;
@@ -129,7 +132,7 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        placeAdapter = new PlaceAdapter(placeList, getApplicationContext());
+        placeAdapter = new PlaceAdapter(placeList, getApplicationContext(), this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
@@ -137,9 +140,9 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
 
         buildGoogleApiClient();
 
-        loadPlacesData();
+      //  loadPlacesData();
 
-      //  loadService();
+       loadService();
 
 
     }
@@ -166,9 +169,9 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
             mGoogleApiClient.disconnect();
         }
     }
-
+/*
     public void loadPlacesData() {
-/*        Place place = new Place("lugar", "horario", "distancia", "ranking");
+*//*        Place place = new Place("lugar", "horario", "distancia", "ranking");
         placeList.add(place);
         Place place1 = new Place("lugar", "horario", "distancia", "ranking");
         placeList.add(place1);
@@ -177,7 +180,7 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
         Place place3 = new Place("lugar", "horario", "distancia", "ranking");
         placeList.add(place3);
         Place place4 = new Place("lugar", "horario", "distancia", "ranking");
-        placeList.add(place4);*/
+        placeList.add(place4);*//*
         PlaceList mPlaceList = null;
         try {
             Gson gson = new Gson();
@@ -190,7 +193,7 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
         placeList.addAll(mPlaceList.getPlaceList());
 
         placeAdapter.notifyDataSetChanged();
-    }
+    }*/
 
 
     @Override
@@ -265,8 +268,13 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
                 progressDialog.dismiss();
 
                 try {
-                    List<Place> placeList = (List<Place>) new Gson().fromJson(response, Place.class);
+                    PlaceList mPlaceList =  new Gson().fromJson(response, PlaceList.class);
                     Log.d(TAG, "tamanio " + placeList.size());
+
+                    placeList.addAll(mPlaceList.getPlaceList());
+
+                    placeAdapter.notifyDataSetChanged();
+
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                 }
@@ -303,7 +311,12 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
     }
 
 
-
+    @Override
+    public void selector(Place place) {
+        Intent i = new Intent(this.getApplication(), PlacesDetailActivity.class);
+        i.putExtra(Const.PLACE, place);
+        startActivity(i);
+    }
 }
 
 

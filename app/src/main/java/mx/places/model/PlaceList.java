@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ironbit on 12/07/16.
+ * Created by miguel_angel on 12/07/16.
  */
 public class PlaceList {
 
-    @SerializedName("Places")
+    @SerializedName("ubicaciones")
     private List<Place> placeList = new ArrayList<>();
 
     public List<Place> getPlaceList()  {

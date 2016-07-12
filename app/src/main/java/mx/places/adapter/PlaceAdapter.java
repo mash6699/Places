@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mx.places.R;
+import mx.places.iface.PlaceSelector;
 import mx.places.model.Place;
 
 /**
@@ -20,12 +21,14 @@ import mx.places.model.Place;
  */
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder> {
 
-    Context context;
-    List<Place> placeList = new ArrayList<>();
+    private Context context;
+    private List<Place> placeList = new ArrayList<>();
+    private PlaceSelector selector;
 
-    public PlaceAdapter(List<Place> places, Context context) {
+    public PlaceAdapter(List<Place> places, Context context, PlaceSelector selector) {
         this.placeList = places;
         this.context = context;
+        this.selector = selector;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
 
     @Override
     public void onBindViewHolder(PlaceHolder holder, int position) {
-        Place place = placeList.get(position);
+        final Place place = placeList.get(position);
         holder.tv_name.setText(place.getName());
         holder.tv_schedule.setText(place.getSchedule());
         //holder.tv_distace.setText(place.getDistance());
@@ -53,7 +56,12 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
             holder.rb_qualification.setRating(numStarts);
         }
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selector.selector(place);
+            }
+        });
     }
 
     @Override
