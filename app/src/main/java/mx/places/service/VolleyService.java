@@ -10,13 +10,14 @@ import com.android.volley.toolbox.Volley;
  * Created by miguel_angel on 11/07/16.
  */
 public class VolleyService {
-    private static VolleyService mInstance;
-    private RequestQueue requestQueue;
-    private static Context context;
+
+    private static VolleyService mInstance = null;
+    private Context context;
+    private RequestQueue mRequestQueue;
 
     private VolleyService(Context context){
-        context = context;
-        requestQueue = getRequestQueue();
+        this.context = context;
+        this.mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
     }
 
     public static synchronized  VolleyService getInstance (Context context) {
@@ -26,15 +27,15 @@ public class VolleyService {
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue() {
-        if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
-        }
-        return requestQueue;
+    public <T> void addToRequestQueue(Request<T> req) {
+        getRequestQueue().add(req);
     }
 
-    public <T> void addToRequestQueue(Request<T> req){
-        getRequestQueue().add(req);
+    public RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        }
+        return mRequestQueue;
     }
 
 }

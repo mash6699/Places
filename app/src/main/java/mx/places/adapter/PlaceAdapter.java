@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ import mx.places.model.Place;
  */
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder> {
 
-   Context context;
-   List<Place> placeList = new ArrayList<>();
+    Context context;
+    List<Place> placeList = new ArrayList<>();
 
     public PlaceAdapter(List<Place> places, Context context) {
         this.placeList = places;
@@ -38,7 +39,21 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
         Place place = placeList.get(position);
         holder.tv_name.setText(place.getName());
         holder.tv_schedule.setText(place.getSchedule());
-        holder.tv_distace.setText(place.getDistance());
+        //holder.tv_distace.setText(place.getDistance());
+        holder.rb_qualification.setEnabled(false);
+        float numStarts = 0;
+
+        try {
+            numStarts = Float.parseFloat(place.getRanking());
+            System.out.println("numStarts ::: " + numStarts);
+            holder.rb_qualification.setRating(numStarts);
+        } catch (Exception e) {
+            System.out.println("numStarts ::: " + numStarts);
+        } finally {
+            holder.rb_qualification.setRating(numStarts);
+        }
+
+
     }
 
     @Override
@@ -48,18 +63,18 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
 
     class PlaceHolder extends RecyclerView.ViewHolder {
 
-        private ImageView im_icon;
         private TextView tv_name;
         private TextView tv_distace;
         private TextView tv_schedule;
-      //  private TextView tv_ranking;
+        private RatingBar rb_qualification;
+        //  private TextView tv_ranking;
 
         public PlaceHolder(View itemView) {
             super(itemView);
-            tv_name = (TextView) itemView.findViewById(R.id.tvPlaceName);
-            tv_distace = (TextView)   itemView.findViewById(R.id.tvSchedule);
-            tv_schedule = (TextView)  itemView.findViewById(R.id.tvDistance);
-          //  tv_ranking =  itemView.findViewById();
+            tv_name         = (TextView) itemView.findViewById(R.id.tvPlaceName);
+            tv_distace      = (TextView)   itemView.findViewById(R.id.tvSchedule);
+            tv_schedule     = (TextView)  itemView.findViewById(R.id.tvDistance);
+            rb_qualification = (RatingBar) itemView.findViewById(R.id.ratingBar);
         }
     }
 

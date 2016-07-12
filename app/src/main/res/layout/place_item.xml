@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Schedule"
+            android:text="00 00 AM"
             android:id="@+id/tvSchedule"
             android:layout_weight="1" />
 
@@ -34,17 +34,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="distance"
+            android:text=" 0 km"
             android:id="@+id/tvDistance"
             android:gravity="right"
             android:layout_weight="1" />
     </LinearLayout>
 
     <RatingBar
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ratingBar"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="right|left" />
+        android:layout_gravity="left"
+        android:numStars="10"
+        android:stepSize="1.0"/>
 </RelativeLayout>

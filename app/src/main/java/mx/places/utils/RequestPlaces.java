@@ -5,8 +5,8 @@ package mx.places.utils;
  */
 public class RequestPlaces {
 
-    private static String HOST = "";
-    private static String API_PATH = "/ServiceApp/services/rest/" ;
+    private static String HOST = "http://54.87.140.128/";
+    private static String API_PATH = "ServiceApp/services/rest/" ;
     private static String API_GET_COMMENTS = "getComentarios" ;
     private static String API_SEND_COMMENT = "setComentario" ;
     private static String API_GET_LOCATION = "getUbicaciones" ;

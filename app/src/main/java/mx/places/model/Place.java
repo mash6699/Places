@@ -11,19 +11,41 @@ public class Place implements Serializable{
 
     @SerializedName("fnId")
     private int id;
+
     @SerializedName("fcNombre")
     private String name;
+
     @SerializedName("fcHorario")
     private String schedule;
+
+    @SerializedName("fncalificacion")
+    private String ranking;
+
     @SerializedName("fcDireccion")
     private String address;
+
     @SerializedName("fcCoordenadas")
     private String coordinates;
 
-    @SerializedName("")
     private String distance;
-    @SerializedName("")
-    private String ranking;
+
+    @SerializedName("fcTelefono1")
+    private String tel1;
+
+    @SerializedName("fcTelefono2")
+    private String tel2;
+
+    @SerializedName("fcTelefono3")
+    private String tel3;
+
+    @SerializedName("fcTelefono4")
+    private String tel4;
+
+    @SerializedName("fcResponsable1")
+    private String resp1;
+
+    @SerializedName("fcResponsable2")
+    private String resp2;
 
 
 
@@ -91,5 +113,53 @@ public class Place implements Serializable{
 
     public void setCoordinates(String coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public String getTel1() {
+        return tel1;
+    }
+
+    public void setTel1(String tel1) {
+        this.tel1 = tel1;
+    }
+
+    public String getTel2() {
+        return tel2;
+    }
+
+    public void setTel2(String tel2) {
+        this.tel2 = tel2;
+    }
+
+    public String getTel3() {
+        return tel3;
+    }
+
+    public void setTel3(String tel3) {
+        this.tel3 = tel3;
+    }
+
+    public String getTel4() {
+        return tel4;
+    }
+
+    public void setTel4(String tel4) {
+        this.tel4 = tel4;
+    }
+
+    public String getResp1() {
+        return resp1;
+    }
+
+    public void setResp1(String resp1) {
+        this.resp1 = resp1;
+    }
+
+    public String getResp2() {
+        return resp2;
+    }
+
+    public void setResp2(String resp2) {
+        this.resp2 = resp2;
     }
 }
