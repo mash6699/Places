@@ -39,6 +39,7 @@
             android:id="@+id/tvDistance"
             android:gravity="right"
             android:layout_weight="1" />
+
     </LinearLayout>
 
     <RatingBar

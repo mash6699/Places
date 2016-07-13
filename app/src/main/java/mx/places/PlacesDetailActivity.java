@@ -17,6 +17,13 @@ public class PlacesDetailActivity extends AppCompatActivity implements RatingBar
     private final static String TAG = PlacesDetailActivity.class.getName();
     private Place place;
 
+    private TextView tv_name;
+    private TextView tv_respo;
+    private TextView tv_address;
+    private TextView tv_phones;
+    private TextView tv_schedule;
+    private TextView tv_distance;
+
     private TextView tv_rating;
     private RatingBar ratingBar;
 
@@ -25,6 +32,15 @@ public class PlacesDetailActivity extends AppCompatActivity implements RatingBar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_layout);
 
+
+        tv_name = (TextView)  findViewById(R.id.tvPlaceName);
+        tv_respo = (TextView)  findViewById(R.id.tvResp);
+        tv_address = (TextView)  findViewById(R.id.tvAddress);
+        tv_phones = (TextView)  findViewById(R.id.tvPhones);
+        tv_schedule = (TextView)  findViewById(R.id.tvSchedule);
+        tv_distance = (TextView)  findViewById(R.id.tvDistance);
+
+
         ratingBar = (RatingBar) findViewById(R.id.rb_cat);
         tv_rating = (TextView)  findViewById(R.id.tv_ranking);
 
@@ -32,7 +48,7 @@ public class PlacesDetailActivity extends AppCompatActivity implements RatingBar
             place = (Place) getIntent().getExtras().getSerializable(Const.PLACE);
         }
 
-ratingBar.setOnRatingBarChangeListener(this);
+        ratingBar.setOnRatingBarChangeListener(this);
 
     }
 
