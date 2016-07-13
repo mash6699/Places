@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:background="#53bdf9">
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="4dp">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Place name"
-        android:id="@+id/tvPlaceName"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlaceName"
-        android:layout_centerHorizontal="true"
-        android:weightSum="2"
-        android:id="@+id/linearLayout">
+        android:padding="12dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="00 00 AM"
-            android:id="@+id/tvSchedule"
-            android:layout_weight="1" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Place name"
+            android:id="@+id/tvPlaceName"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text=" 0 km"
-            android:id="@+id/tvDistance"
-            android:gravity="right"
-            android:layout_weight="1" />
+            android:layout_below="@+id/tvPlaceName"
+            android:layout_centerHorizontal="true"
+            android:weightSum="2"
+            android:id="@+id/linearLayout">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="00 00 AM"
+                android:id="@+id/tvSchedule"
+                android:layout_weight="1" />
 
-    <RatingBar
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="left"
-        android:numStars="10"
-        android:stepSize="1.0"/>
-</RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=" 0 km"
+                android:id="@+id/tvDistance"
+                android:gravity="right"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <RatingBar
+            style="@android:style/Widget.Holo.Light.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:numStars="10"
+            android:stepSize="1.0"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

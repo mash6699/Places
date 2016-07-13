@@ -1,11 +1,14 @@
 package mx.places;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+
+import mx.places.utils.Utils;
 
 import static mx.places.utils.Const.ID_CAT;
 import static mx.places.utils.Const.CAT_CINEMA;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendIntentPlace (Bundle bundle) {
         try {
+            Utils.saveCat(bundle,getApplicationContext());
             Log.d(TAG, "sendIntentPlace: " + bundle.get(ID_CAT));
             Intent intent = new Intent(MainActivity.this, PlacesActivity.class);
             intent.putExtras(bundle);

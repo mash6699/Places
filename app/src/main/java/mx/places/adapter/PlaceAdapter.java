@@ -75,13 +75,12 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
         private TextView tv_distace;
         private TextView tv_schedule;
         private RatingBar rb_qualification;
-        //  private TextView tv_ranking;
 
         public PlaceHolder(View itemView) {
             super(itemView);
             tv_name         = (TextView) itemView.findViewById(R.id.tvPlaceName);
-            tv_distace      = (TextView)   itemView.findViewById(R.id.tvSchedule);
-            tv_schedule     = (TextView)  itemView.findViewById(R.id.tvDistance);
+            tv_distace      = (TextView)   itemView.findViewById(R.id.tvDistance);
+            tv_schedule     = (TextView)  itemView.findViewById(R.id.tvSchedule);
             rb_qualification = (RatingBar) itemView.findViewById(R.id.ratingBar);
         }
     }

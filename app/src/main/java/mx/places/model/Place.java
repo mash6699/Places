@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class Place implements Serializable{
 
+    private int idCat;
+
     @SerializedName("fnId")
     private int id;
 
@@ -47,9 +49,6 @@ public class Place implements Serializable{
     @SerializedName("fcResponsable2")
     private String resp2;
 
-
-
-
     public Place () {}
 
     public Place(String name, String schedule, String distance, String ranking) {
@@ -57,6 +56,14 @@ public class Place implements Serializable{
         this.schedule = schedule;
         this.distance = distance;
         this.ranking = ranking;
+    }
+
+    public int getIdCat() {
+        return idCat;
+    }
+
+    public void setIdCat(int idCat) {
+        this.idCat = idCat;
     }
 
     public String getName() {
@@ -161,5 +168,38 @@ public class Place implements Serializable{
 
     public void setResp2(String resp2) {
         this.resp2 = resp2;
+    }
+
+    public String getAllRespon(){
+        StringBuilder builder = new StringBuilder();
+
+        if (getResp1()!= null) {
+            builder.append(getResp1() + " ");
+        }
+        if (getResp2() != null) {
+            builder.append(getResp2());
+        }
+        System.out.println("getAllRespon :" + builder.toString());
+        return builder.toString();
+    }
+
+    public String getAllPhones(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (getTel1()!= null) {
+            stringBuilder.append(getTel1() + " ");
+        }
+
+        if ( getTel2()!= null) {
+            stringBuilder.append(getTel2() + " ");
+        }
+        if ( getTel3()!= null) {
+            stringBuilder.append(getTel3() + " ");
+        }
+        if (getTel4()!= null) {
+            stringBuilder.append(getTel4());
+        }
+        System.out.println("getAllPhones :" + stringBuilder.toString());
+        return stringBuilder.toString();
     }
 }

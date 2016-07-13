@@ -3,6 +3,7 @@ package mx.places.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -19,6 +20,8 @@ import org.json.JSONObject;
 
 import mx.places.PlacesActivity;
 import mx.places.R;
+
+import static mx.places.utils.Const.ID_CAT;
 
 /**
  * Created by miguelangel on 10/07/2016.
@@ -90,6 +93,18 @@ public class Utils {
                 1500,
                 3,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+    }
+
+    public static void saveCat(Bundle bundle, Context context) {
+        SharedPreferences sp = context.getSharedPreferences("place", 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(ID_CAT,bundle.getInt(ID_CAT));
+        editor.commit();
+    }
+
+    public static int getCat(Context context){
+        SharedPreferences sp = context.getSharedPreferences("place", 0);
+        return sp.getInt(ID_CAT, 1);
     }
 
 

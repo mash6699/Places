@@ -18,27 +18,19 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import mx.places.adapter.PlaceAdapter;
 import mx.places.iface.PlaceSelector;
@@ -77,39 +69,6 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
 
     //https://maps.googleapis.com/maps/api/distancematrix/json?origins=19.4421072,-99.2053086&destinations=19.4406976,-99.2068888&mode=bicycling&language=mx-MX
 
-    String jsonPlaces =
-            "{\"Places\" :[\n" +
-            "  {\n" +
-            "    \"fnIdLugar\": 31,\n" +
-            "    \"fcNombre\": \"Proveedora De Refacciones Casemar Sa De Cv\",\n" +
-            "    \"fcHorario\": \"09:00 - 21:00 HRS\",\n" +
-            "    \"fncalificacion\": 1,\n" +
-            "    \"fcDireccion\": \"Av. Rayon Norte Y Calle Negrete S/N Centro, Cp. 30640, Huixtla, Chiapas\",\n" +
-            "    \"fcCoordenadas\": \"15.141713,-92.4630238\",\n" +
-            "    \"fcTelefono1\": \"(964) 642 1199\",\n" +
-            "    \"fcTelefono2\": null,\n" +
-            "    \"fcTelefono3\": null,\n" +
-            "    \"fcTelefono4\": null,\n" +
-            "    \"fcResponsable1\": \"Juan Carlos Lopez Sanchez\",\n" +
-            "    \"fcResponsable2\": null\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"fnIdLugar\": 51,\n" +
-            "    \"fcNombre\": \"Juana Susana Garcia Seturino Y/O Proveedora De Llantas \",\n" +
-            "    \"fcHorario\": \"09:00 - 21:00 HRS\",\n" +
-            "    \"fncalificacion\": 3,\n" +
-            "    \"fcDireccion\": \"Costa No. 419 Nte. Zona Centro, Durango Durango, C.P. 34000\",\n" +
-            "    \"fcCoordenadas\": \"24.0312662,-104.6782826\",\n" +
-            "    \"fcTelefono1\": \"(618) 812 5868\",\n" +
-            "    \"fcTelefono2\": null,\n" +
-            "    \"fcTelefono3\": null,\n" +
-            "    \"fcTelefono4\": null,\n" +
-            "    \"fcResponsable1\": \"Maria Magdalena Ávila Martínez\",\n" +
-            "    \"fcResponsable2\": null\n" +
-            "  }\n"
-            +
-            " ]\n" +
-            "}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +82,12 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
 
         if (getIntent().getExtras() != null) {
             CAT = getIntent().getExtras().getInt(ID_CAT);
-            title = Utils.getNameCategory(CAT);
-            toolbar.setTitle(title);
-            toolbar.setLogo(Utils.getIconByCategory(CAT, getApplicationContext()));
+            init(CAT);
+        } else {
+            CAT = Utils.getCat(getApplicationContext());
+            init(CAT);
         }
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -140,11 +101,15 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
 
         buildGoogleApiClient();
 
-      //  loadPlacesData();
+        loadService();
 
-       loadService();
+    }
 
 
+    public void init(int cat){
+        title = Utils.getNameCategory(cat);
+        toolbar.setTitle(title);
+        toolbar.setLogo(Utils.getIconByCategory(cat, getApplicationContext()));
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -263,24 +228,24 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
                 Request.Method.POST,
                 url,
                 new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
 
-                try {
-                    PlaceList mPlaceList =  new Gson().fromJson(response, PlaceList.class);
-                    Log.d(TAG, "tamanio " + placeList.size());
+                        try {
+                            PlaceList mPlaceList =  new Gson().fromJson(response, PlaceList.class);
+                            Log.d(TAG, "tamanio " + placeList.size());
 
-                    placeList.addAll(mPlaceList.getPlaceList());
+                            placeList.addAll(mPlaceList.getPlaceList());
 
-                    placeAdapter.notifyDataSetChanged();
+                            placeAdapter.notifyDataSetChanged();
 
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
+                        } catch (Exception e) {
+                            Log.e(TAG, e.getMessage());
+                        }
 
-            }
-        }, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "onErrorResponse " + error.getMessage());
@@ -313,6 +278,7 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
 
     @Override
     public void selector(Place place) {
+        place.setIdCat(CAT);
         Intent i = new Intent(this.getApplication(), PlacesDetailActivity.class);
         i.putExtra(Const.PLACE, place);
         startActivity(i);
