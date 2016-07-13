@@ -46,9 +46,9 @@ import static mx.places.utils.Const.ID_CAT;
 /**
  * Created by miguel_angel on 8/07/16.
  */
-public class PlacesActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, PlaceSelector {
+public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, PlaceSelector {
 
-    private final static String TAG = PlacesActivity.class.getName();
+    private final static String TAG = PlaceActivity.class.getName();
     private int CAT = 0;
     private String title = null;
     Context context;
@@ -134,32 +134,6 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
             mGoogleApiClient.disconnect();
         }
     }
-/*
-    public void loadPlacesData() {
-*//*        Place place = new Place("lugar", "horario", "distancia", "ranking");
-        placeList.add(place);
-        Place place1 = new Place("lugar", "horario", "distancia", "ranking");
-        placeList.add(place1);
-        Place place2 = new Place("lugar", "horario", "distancia", "ranking");
-        placeList.add(place2);
-        Place place3 = new Place("lugar", "horario", "distancia", "ranking");
-        placeList.add(place3);
-        Place place4 = new Place("lugar", "horario", "distancia", "ranking");
-        placeList.add(place4);*//*
-        PlaceList mPlaceList = null;
-        try {
-            Gson gson = new Gson();
-            mPlaceList =  gson.fromJson(jsonPlaces.toString(), PlaceList.class);
-            Log.d(TAG, "tamanio " + mPlaceList.getPlaceList().size());
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-
-        placeList.addAll(mPlaceList.getPlaceList());
-
-        placeAdapter.notifyDataSetChanged();
-    }*/
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -279,7 +253,7 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void selector(Place place) {
         place.setIdCat(CAT);
-        Intent i = new Intent(this.getApplication(), PlacesDetailActivity.class);
+        Intent i = new Intent(this.getApplication(), PlaceDetailActivity.class);
         i.putExtra(Const.PLACE, place);
         startActivity(i);
     }

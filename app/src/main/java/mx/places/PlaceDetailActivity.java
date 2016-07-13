@@ -1,10 +1,7 @@
 package mx.places;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,15 +15,12 @@ import mx.places.model.Place;
 import mx.places.utils.Const;
 import mx.places.utils.Utils;
 
-import static mx.places.utils.Const.CAT_THEATER;
-import static mx.places.utils.Const.ID_CAT;
-
 /**
  * Created by miguel_angel on 8/07/16.
  */
-public class PlacesDetailActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener {
+public class PlaceDetailActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener {
 
-    private final static String TAG = PlacesDetailActivity.class.getName();
+    private final static String TAG = PlaceDetailActivity.class.getName();
     private Place place;
 
     private Toolbar toolbar;
@@ -115,6 +109,9 @@ public class PlacesDetailActivity extends AppCompatActivity implements RatingBar
 
 
     public void goPlaceInMap(View view){
+        Intent i = new Intent(this.getApplication(), MapsActivity.class); //PlaceLocationActivity
+        i.putExtra(Const.PLACE, place);
+        startActivity(i);
 
     }
 

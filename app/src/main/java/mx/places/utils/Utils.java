@@ -2,14 +2,11 @@ package mx.places.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.BundleCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -18,7 +15,6 @@ import com.android.volley.RetryPolicy;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import mx.places.PlacesActivity;
 import mx.places.R;
 
 import static mx.places.utils.Const.ID_CAT;

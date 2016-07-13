@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mx.places.PlacesDetailActivity"
+    tools:context=".PlaceDetailActivity"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -225,7 +225,8 @@
                 android:layout_height="wrap_content"
                 android:text="Ir"
                 android:layout_gravity="bottom"
-                android:layout_alignParentBottom="true" />
+                android:layout_alignParentBottom="true"
+                android:onClick="goPlaceInMap"/>
 
 
         </RelativeLayout>

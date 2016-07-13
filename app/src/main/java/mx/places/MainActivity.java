@@ -1,7 +1,6 @@
 package mx.places;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Utils.saveCat(bundle,getApplicationContext());
             Log.d(TAG, "sendIntentPlace: " + bundle.get(ID_CAT));
-            Intent intent = new Intent(MainActivity.this, PlacesActivity.class);
+            Intent intent = new Intent(MainActivity.this, PlaceActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
         } catch (Exception ex) {
