@@ -26,10 +26,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import mx.places.adapter.PlaceAdapter;
@@ -194,7 +198,7 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog.setMessage("Obteniendo datos");
         progressDialog.show();
 
-        String url = RequestPlaces.getAPI_GET_LOCATION();
+        String url = RequestPlaces.API_GET_LOCATION();
         final String json = Utils.getJsonLocation(CAT);
         Log.d(TAG,"LoadService: " + url);
 
@@ -204,7 +208,7 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
+
 
                         try {
                             PlaceList mPlaceList =  new Gson().fromJson(response, PlaceList.class);
@@ -214,8 +218,13 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
                             placeAdapter.notifyDataSetChanged();
 
+                            if (mLastLocation != null) {
+                                sendDistance();
+                            }
+
                         } catch (Exception e) {
                             Log.e(TAG, e.getMessage());
+                            progressDialog.dismiss();
                         }
 
                     }
@@ -250,6 +259,80 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
+    public void sendDistance(){
+        Iterator<Place> iterator = placeList.iterator();
+        while(iterator.hasNext()){
+            Place place = iterator.next();
+            Log.d(TAG, place.getCoordinates());
+            serviceDistance(place);
+        }
+
+        progressDialog.dismiss();
+    }
+
+
+    public void serviceDistance(Place mPlace){
+        Log.d(TAG,"serviceDistance");
+        String [] loc = mPlace.getCoordinates().split(",");
+        if(loc.length == 2 ) {
+            LatLng lngOrig = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLatitude());
+            LatLng lngDest = new LatLng(Double.parseDouble(loc[0].toString()), Double.parseDouble(loc[1].toString()));
+            String url = RequestPlaces.API_GET_MATRIX(lngOrig, lngDest);
+
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.POST,
+                    url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+
+                                if(jsonObject.has("status") && jsonObject.getString("status").equals("OK")){
+
+                                    String destAddress = jsonObject.getJSONArray("destination_addresses").toString();
+
+                                    JSONObject duration = jsonObject.getJSONObject("duration");
+                                    String sDuration = duration.getString("text");
+                                    int iDuration = duration.getInt("value");
+
+                                    JSONObject distance = jsonObject.getJSONObject("distance");
+                                    String sDistance = distance.getString("text");
+                                    int iDistance = duration.getInt("value");
+
+                                    Log.d(TAG, "duration " + sDuration  + " " + iDuration);
+                                    Log.d(TAG, "distance " + sDistance  + " " + iDistance);
+                                }
+
+
+
+                                Log.d(TAG, "matrix response  " + response.length());
+
+                            } catch (Exception e) {
+                                Log.e(TAG, e.getMessage());
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "onErrorResponse " + error.getMessage());
+                    progressDialog.dismiss();
+                }
+            })
+            {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+            };
+
+            stringRequest.setRetryPolicy(Utils.getRetryPolicy());
+            VolleyService.getInstance(this.getApplicationContext()).addToRequestQueue(stringRequest);
+        }
+    }
+
     @Override
     public void selector(Place place) {
         place.setIdCat(CAT);
@@ -261,3 +344,22 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 
+/*
+
+{
+   "destination_addresses" : [ "19.69254,-101.1859869" ],
+   "origin_addresses" : [ "19.4421072,19.4421072" ],
+   "rows" : [
+      {
+         "elements" : [
+            {
+               "status" : "ZERO_RESULTS"
+            }
+         ]
+      }
+   ],
+   "status" : "OK"
+}
+
+
+ */
