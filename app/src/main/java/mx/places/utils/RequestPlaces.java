@@ -20,7 +20,7 @@ public class RequestPlaces {
         return stringBuilder.toString();
     }
 
-    public static  String getAPI_SEND_COMMENT() {
+    public static  String API_SEND_COMMENT() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(HOST);
         stringBuilder.append(API_PATH);
