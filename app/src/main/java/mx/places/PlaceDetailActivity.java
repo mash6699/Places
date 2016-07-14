@@ -1,5 +1,6 @@
 package mx.places;
 
+import android.support.v4.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,8 +25,9 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import mx.places.fragment.DFragment;
+import mx.places.model.CommentsList;
 import mx.places.model.Place;
-import mx.places.model.PlaceList;
 import mx.places.service.VolleyService;
 import mx.places.utils.Const;
 import mx.places.utils.RequestPlaces;
@@ -53,6 +55,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements RatingBar.
     private RatingBar ratingBar;
 
     ProgressDialog progressDialog;
+    ProgressDialog progressDialogComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,15 +193,93 @@ public class PlaceDetailActivity extends AppCompatActivity implements RatingBar.
         VolleyService.getInstance(this.getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
+
+    public void getAllComments(View view) {
+
+
+        progressDialogComment = new ProgressDialog(this);
+        progressDialogComment.setMessage("Enviando comentario!");
+        progressDialogComment.show();
+
+        String url = RequestPlaces.API_GET_COMMENTS();
+        final String json = Utils.getJsonAllComments(place.getId());
+        Log.d(TAG,"LoadService: " + url);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialogComment.dismiss();
+
+                        try {
+                            CommentsList commentsList = new Gson().fromJson(response, CommentsList.class);
+                            if (commentsList.getCommentsList().size() > 0) {
+                                setValuesDialog(commentsList);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No hay comentarios por el momento", Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (Exception e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "onErrorResponse " + error.getMessage());
+                progressDialogComment.dismiss();
+            }
+        })
+        {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return json == null ? null : json.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            json, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        stringRequest.setRetryPolicy(Utils.getRetryPolicy());
+        VolleyService.getInstance(this.getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void setValuesDialog(CommentsList commentsList){
+        try {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("COMMENT", commentsList);
+            FragmentManager fm = getSupportFragmentManager();
+
+            DFragment dialogFragment = new DFragment();
+            dialogFragment.setArguments(bundle);
+            dialogFragment.show(fm, "TAG");
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+
     private void resetFields(){
         Log.d(TAG, "resetFields");
-        ratingBar.setNumStars(0);
+        ratingBar.setRating(0F);
         ed_comment.setText("");
     }
 
 
     public void goPlaceInMap(View view){
-        Intent i = new Intent(this.getApplication(), MapsActivity.class); //PlaceLocationActivity
+        Intent i = new Intent(this.getApplication(), PlaceLocationActivity.class); //PlaceLocationActivity
         i.putExtra(Const.PLACE, place);
         startActivity(i);
 

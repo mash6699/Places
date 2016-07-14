@@ -83,12 +83,29 @@ public class Utils {
         }
     }
 
+    public static String getJsonAllComments(int idLugar){
+        String jsonReult = null;
+        JSONObject params = new JSONObject();
+        try {
+            params.put("idLugar", idLugar);
+
+            jsonReult = params.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            Log.d(TAG, "JSON: " + jsonReult);
+            return jsonReult;
+        }
+    }
+
+
     public static String getJsonComment(int idLugar,String comment, int c, String loc){
         String jsonReult = null;
         JSONObject params = new JSONObject();
         try {
             params.put("idLugar", idLugar);
             params.put("usuario", "Android");
+            params.put("comentario", comment);
             params.put("calificacion", c);
             params.put("coordenadas", loc);
             jsonReult = params.toString();

@@ -12,7 +12,7 @@ public class RequestPlaces {
     private static String API_GET_LOCATION = "getUbicaciones2" ;
 
 
-    public static String getAPI_GET_COMMENTS() {
+    public static String API_GET_COMMENTS() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(HOST);
         stringBuilder.append(API_PATH);

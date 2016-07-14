@@ -11,7 +11,7 @@ public class Place implements Serializable{
 
     private int idCat;
 
-    @SerializedName("fnId")
+    @SerializedName("fnIdLugar")
     private int id;
 
     @SerializedName("fcNombre")

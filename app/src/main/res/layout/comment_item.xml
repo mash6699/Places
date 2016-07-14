@@ -10,41 +10,30 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Place name"
-            android:id="@+id/tvPlaceName"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+        android:padding="8dp">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvPlaceName"
             android:layout_centerHorizontal="true"
-            android:weightSum="2"
             android:id="@+id/linearLayout">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="00 00 AM"
-                android:id="@+id/tvSchedule"
+                android:text="Comment"
+                android:id="@+id/tvComment"
                 android:layout_weight="1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=" 0 km"
-                android:id="@+id/tvDistance"
-                android:gravity="right"
+                android:text="Date"
+                android:id="@+id/tvDate"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -52,7 +41,7 @@
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ratingBar"
+            android:id="@+id/ratingBarComment"
             android:layout_below="@+id/linearLayout"
             android:layout_centerHorizontal="true"
             android:numStars="5"
