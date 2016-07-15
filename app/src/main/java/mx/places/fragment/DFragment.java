@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import mx.places.R;
 import mx.places.adapter.CommentAdapter;
@@ -17,13 +19,14 @@ import mx.places.model.CommentsList;
 /**
  * Created by miguel_angel on 14/07/16.
  */
-public class DFragment extends DialogFragment {
+public class DFragment extends DialogFragment implements View.OnClickListener{
 
     private final static String TAG = DialogFragment.class.getSimpleName();
     CommentsList commentsList;
 
     CommentAdapter commentAdapter;
     RecyclerView recycler;
+    Button bt_close;
     View rootView;
 
 
@@ -34,6 +37,7 @@ public class DFragment extends DialogFragment {
                 false);
 
         recycler = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        bt_close = (Button) rootView.findViewById(R.id.btClose);
 
         if(getArguments() !=null) {
             commentsList = (CommentsList) getArguments().getSerializable("COMMENT");
@@ -47,12 +51,15 @@ public class DFragment extends DialogFragment {
             recycler.setAdapter(commentAdapter);
         }
 
-
+        bt_close.setOnClickListener(this);
 
         getDialog().setTitle("Comenta");
         return rootView;
     }
 
 
-
+    @Override
+    public void onClick(View view) {
+        getDialog().dismiss();
+    }
 }

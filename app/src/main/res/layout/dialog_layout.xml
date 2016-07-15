@@ -23,9 +23,17 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerrar"
+            android:id="@+id/btClose"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
