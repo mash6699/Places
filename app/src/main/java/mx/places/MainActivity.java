@@ -48,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendIntentPlace (Bundle bundle) {
         try {
-            Utils.saveCat(bundle,getApplicationContext());
-            Log.d(TAG, "sendIntentPlace: " + bundle.get(ID_CAT));
-            Intent intent = new Intent(MainActivity.this, PlaceActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            if(Utils.isOnline(this)) {
+                Utils.saveCat(bundle,getApplicationContext());
+                Log.d(TAG, "sendIntentPlace: " + bundle.get(ID_CAT));
+                Intent intent = new Intent(MainActivity.this, PlaceActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }

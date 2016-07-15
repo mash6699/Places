@@ -42,7 +42,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
         final Place place = placeList.get(position);
         holder.tv_name.setText(place.getName());
         holder.tv_schedule.setText(place.getSchedule());
-        //holder.tv_distace.setText(place.getDistance());
+        holder.tv_distace.setText(place.getDistance());
         holder.rb_qualification.setEnabled(false);
         float numStarts = 0;
 

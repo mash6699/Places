@@ -7,10 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RetryPolicy;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,18 +64,27 @@ public class Utils {
     public static boolean isOnline(Activity a) {
         ConnectivityManager cm = (ConnectivityManager) a.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
         if (netInfo != null && netInfo.isConnected()) {
             return true;
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(a);
+            builder.setMessage("No tienes conexion a la red :(")
+                    .setCancelable(true)
+                    .setPositiveButton("OK", null);
+            AlertDialog alert = builder.create();
+            alert.show();
+            return  false;
         }
-        return false;
     }
 
-    public static String getJsonLocation(int cat) {
+    public static String getJsonLocation(int cat, LatLng latLng) {
         String jsonReult = null;
         JSONObject params = new JSONObject();
         try {
             params.put("idTipo", cat);
             params.put("idStatus", -1);
+            params.put("ubicacionActual", latLng.latitude + "," + latLng.longitude);
             jsonReult = params.toString();
         } catch (JSONException e) {
             e.printStackTrace();

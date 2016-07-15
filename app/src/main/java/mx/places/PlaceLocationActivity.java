@@ -1,7 +1,10 @@
 package mx.places;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -47,6 +50,7 @@ import mx.places.R;
 import mx.places.model.Place;
 import mx.places.utils.Const;
 import mx.places.utils.DataParser;
+import mx.places.utils.Utils;
 
 public class PlaceLocationActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -58,12 +62,14 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    SupportMapFragment mapFragment;
     private Place place;
     private LatLng myLatLng;
     private LatLng placeLatLng;
-    ProgressDialog progressDialog;
-
+    private ProgressDialog progressDialog;
     private TextView tvHeader;
+    Double lat;
+    Double lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +82,14 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
             checkLocationPermission();
         }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
 
         if (getIntent().getExtras() != null) {
             place = (Place) getIntent().getExtras().getSerializable(Const.PLACE);
+            tvHeader.setText(place.getName() + " " + place.getAddress());
         }
 
     }
@@ -107,13 +115,13 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
                     == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
                 mMap.setMyLocationEnabled(true);
-                showDialog();
+                  showDialog();
             }
         }
         else {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
-            showDialog();
+              showDialog();
         }
     }
 
@@ -121,6 +129,7 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Obteniendo ruta");
         progressDialog.show();
+        progressDialog.setCancelable(false);
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -188,30 +197,31 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
     }
 
     private void setLocationPlace(){
-        if(place != null) {
-            String [] loc = place.getCoordinates().split(",");
-            if(loc.length == 2 ){
 
-                tvHeader.setText(place.getName() + " "+ place.getAddress());
-                placeLatLng = new LatLng(Double.parseDouble(loc[0].toString()), Double.parseDouble(loc[1].toString()));
-                MarkerOptions markerOptionPlace = new MarkerOptions();
-                markerOptionPlace.position(placeLatLng);
-                markerOptionPlace.title(place.getName());
-                markerOptionPlace.snippet(place.getAddress());
-                markerOptionPlace.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                mCurrLocationMarker = mMap.addMarker(markerOptionPlace);
+        if(Utils.isOnline(this)) {
 
-                String url = getUrl(myLatLng, placeLatLng);
-                FetchUrl FetchUrl = new FetchUrl();
-                FetchUrl.execute(url);
+            if (place != null) {
+                String[] loc = place.getCoordinates().split(",");
+                if (loc.length == 2) {
+                    placeLatLng = new LatLng(Double.parseDouble(loc[0].toString()), Double.parseDouble(loc[1].toString()));
+                    MarkerOptions markerOptionPlace = new MarkerOptions();
+                    markerOptionPlace.position(placeLatLng);
+                    markerOptionPlace.title(place.getName());
+                    markerOptionPlace.snippet(place.getAddress());
+                    markerOptionPlace.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    mCurrLocationMarker = mMap.addMarker(markerOptionPlace);
 
+                    String url = getUrl(myLatLng, placeLatLng);
+                    FetchUrl FetchUrl = new FetchUrl();
+                    FetchUrl.execute(url);
+
+                    progressDialog.dismiss();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), ":( Sucedio un error!!", Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
-        } else {
-            Toast.makeText(getApplicationContext(), ":( Sucedio un error!!", Toast.LENGTH_LONG).show();
-            progressDialog.dismiss();
         }
-
 
     }
 
@@ -231,8 +241,8 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
 
                 //Prompt the user once explanation has been shown
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION);
 
 
             } else {
@@ -281,9 +291,6 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
         }
     }
 
-    public void getComments(View view){
-
-    }
 
     private String getUrl(LatLng origin, LatLng dest) {
 
@@ -459,7 +466,7 @@ public class PlaceLocationActivity extends FragmentActivity implements OnMapRead
 
     public void exitApp(View view){
         try {
-            this.finish();
+            ActivityCompat.finishAffinity(this);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

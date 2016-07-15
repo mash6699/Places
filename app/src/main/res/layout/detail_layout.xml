@@ -31,6 +31,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal">
 
+            <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
             <LinearLayout
                 android:id="@+id/layout_content"
                 android:orientation="vertical"
@@ -44,7 +48,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -64,7 +68,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -84,7 +88,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -104,7 +108,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -124,7 +128,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -144,7 +148,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -185,6 +189,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"/>
 
+
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -202,13 +208,14 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enviar"
+                    android:text="Enviar comentario"
                     android:layout_gravity="center"
                     android:layout_alignParentBottom="true"
                     android:onClick="sendComment"/>
 
             </LinearLayout>
 
+            <!--</ScrollView>-->
 
             <LinearLayout
                 android:layout_gravity="bottom"

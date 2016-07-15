@@ -15,4 +15,7 @@ public class Const {
     public static final String RESTAURANT = "Restaurant";
 
     public static final String PLACE = "PLACE";
+    public static final String LAT = "LAT";
+    public static final String LON = "LONG";
+
 }

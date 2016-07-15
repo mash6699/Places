@@ -29,6 +29,7 @@ public class Place implements Serializable{
     @SerializedName("fcCoordenadas")
     private String coordinates;
 
+    @SerializedName("distanciaTxt")
     private String distance;
 
     @SerializedName("fcTelefono1")

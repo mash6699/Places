@@ -63,15 +63,11 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
     PlaceAdapter placeAdapter;
     List<Place> placeList = new ArrayList<>();
 
-    String json = "";
 
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private static final int REQUEST_CODE_LOCATION = 2;
-
-    // SUMAYA 19.4406976, -99.2068888
-
-    //https://maps.googleapis.com/maps/api/distancematrix/json?origins=19.4421072,-99.2053086&destinations=19.4406976,-99.2068888&mode=bicycling&language=mx-MX
+    private LatLng latLng;
 
 
     @Override
@@ -105,7 +101,12 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
         buildGoogleApiClient();
 
-        loadService();
+     //   loadService();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Obteniendo datos");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
 
     }
 
@@ -184,9 +185,13 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
     protected void getMyLocation () {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null) {
+            latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             Log.d(TAG, " Latitude: " + mLastLocation.getLatitude() + " Longitude: " + mLastLocation.getLongitude());
+            loadService();
         } else {
+            progressDialog.dismiss();
             Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
+            latLng = null;
         }
     }
 
@@ -194,12 +199,13 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
     void loadService() {
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Obteniendo datos");
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("Obteniendo datos");
+//        progressDialog.show();
 
         String url = RequestPlaces.API_GET_LOCATION();
-        final String json = Utils.getJsonLocation(CAT);
+
+        final String json = Utils.getJsonLocation(CAT, latLng);
         Log.d(TAG,"LoadService: " + url);
 
         StringRequest stringRequest = new StringRequest(
@@ -209,6 +215,7 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onResponse(String response) {
 
+                        progressDialog.dismiss();
 
                         try {
                             PlaceList mPlaceList =  new Gson().fromJson(response, PlaceList.class);
@@ -218,13 +225,13 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
                             placeAdapter.notifyDataSetChanged();
 
-                            if (mLastLocation != null) {
+                            //TODO AQUI INICIA EL OTRO PROCESO DE EMPAREJAMIENTO
+                          /*  if (mLastLocation != null) {
                                 sendDistance();
-                            }
+                            }*/
 
                         } catch (Exception e) {
                             Log.e(TAG, e.getMessage());
-                            progressDialog.dismiss();
                         }
 
                     }
@@ -337,6 +344,8 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
     public void selector(Place place) {
         place.setIdCat(CAT);
         Intent i = new Intent(this.getApplication(), PlaceDetailActivity.class);
+        i.putExtra(Const.LAT, latLng.latitude);
+        i.putExtra(Const.LON, latLng.longitude);
         i.putExtra(Const.PLACE, place);
         startActivity(i);
     }
@@ -345,7 +354,7 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 /*
-
+Asi responde matrix, emparejaria mediante cooordenadas
 {
    "destination_addresses" : [ "19.69254,-101.1859869" ],
    "origin_addresses" : [ "19.4421072,19.4421072" ],
